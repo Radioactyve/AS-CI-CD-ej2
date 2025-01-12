@@ -14,24 +14,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Paso 1: Descargar el código
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Paso 2: Configurar Python
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      # Paso 3: Instalar pylint
+      # Step 3: Install pylint
       - name: Install pylint
         run: |
           python -m pip install --upgrade pip
           pip install pylint
 
-      # Paso 4: Ejecutar el análisis de código con pylint
+      # Step 4: Run pylint analysis
       - name: Run pylint analysis
-        uses: advanced-security/python-lint-code-scanning-action@v3
+        run: |
+          pylint **/*.py  # Adjust based on your repo's structure
+
+      # Step 5: Set up CodeQL scanning (v3)
+      - name: Set up CodeQL
+        uses: github/codeql-action/init@v3
         with:
-          linter: pylint
+          languages: python
+          
+      # Step 6: Run CodeQL analysis
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
