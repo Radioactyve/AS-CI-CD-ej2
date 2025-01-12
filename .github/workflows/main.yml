@@ -1,35 +1,37 @@
-main.yml
-name: Code Quality Analysis
+name: Python Code Quality Check
 
-on: push
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 permissions:
   security-events: write
 
 jobs:
-  lint_code:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
-      # Descargar el código
+      # Paso 1: Descargar el código
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      # Configurar Python
+      # Paso 2: Configurar Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.x'
 
-      # Instalar pylint
+      # Paso 3: Instalar pylint
       - name: Install pylint
         run: |
           python -m pip install --upgrade pip
           pip install pylint
 
-      # Ejecutar análisis de código con pylint
-      - name: Run Code Quality Analysis
+      # Paso 4: Ejecutar el análisis de código con pylint
+      - name: Run pylint analysis
         uses: advanced-security/python-lint-code-scanning-action@v1
         with:
           linter: pylint
-
