@@ -32,6 +32,6 @@ jobs:
 
       # Paso 4: Ejecutar el análisis de código con pylint
       - name: Run pylint analysis
-        uses: advanced-security/python-lint-code-scanning-action@v1
+        uses: advanced-security/python-lint-code-scanning-action@v3
         with:
           linter: pylint
